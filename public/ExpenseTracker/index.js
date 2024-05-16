@@ -4,7 +4,6 @@ logout_btn.addEventListener("click", logout);
 function logout() {
     localStorage.clear();
   }
-  
 function addNewExpense(e){
     e.preventDefault();
 
@@ -16,7 +15,7 @@ function addNewExpense(e){
     }
     console.log(expenseDetails)
     const token  = localStorage.getItem('token')
-    axios.post('http://localhost:3000/expense/addexpense',expenseDetails,  { headers: {"Authorization" : token} })
+    axios.post('https://expense-tracker-deployed.onrender.com/expense/addexpense',expenseDetails,  { headers: {"Authorization" : token} })
         .then((response) => {
 
         addNewExpensetoUI(response.data.expense);
@@ -51,7 +50,7 @@ window.addEventListener('DOMContentLoaded', ()=> {
         showPremiumuserMessage()
         showLeaderboard()
     }
-    axios.get('http://localhost:3000/expense/getexpenses', { headers: {"Authorization" : token} })
+    axios.get('https://expense-tracker-deployed.onrender.com/expense/getexpenses', { headers: {"Authorization" : token} })
     .then(response => {
             response.data.expenses.forEach(expense => {
 
@@ -76,7 +75,7 @@ function addNewExpensetoUI(expense){
 
 function deleteExpense(e, expenseid) {
     const token = localStorage.getItem('token')
-    axios.delete(`http://localhost:3000/expense/deleteexpense/${expenseid}`,  { headers: {"Authorization" : token} }).then(() => {
+    axios.delete(`https://expense-tracker-deployed.onrender.com/expense/deleteexpense/${expenseid}`,  { headers: {"Authorization" : token} }).then(() => {
 
             removeExpensefromUI(expenseid);
 
@@ -94,7 +93,7 @@ function showLeaderboard(){
     inputElement.value = 'Show Leaderboard'
     inputElement.onclick = async() => {
         const token = localStorage.getItem('token')
-        const userLeaderBoardArray = await axios.get('http://localhost:3000/premium/showLeaderBoard', { headers: {"Authorization" : token} })
+        const userLeaderBoardArray = await axios.get('https://expense-tracker-deployed.onrender.com/premium/showLeaderBoard', { headers: {"Authorization" : token} })
         console.log(userLeaderBoardArray)
 
         var leaderboardElem = document.getElementById('leaderboard')
@@ -114,7 +113,7 @@ function removeExpensefromUI(expenseid){
 
 document.getElementById('rzp-button1').onclick = async function (e) {
     const token = localStorage.getItem('token')
-    const response  = await axios.get('http://localhost:3000/purchase/premiummembership', { headers: {"Authorization" : token} });
+    const response  = await axios.get('https://expense-tracker-deployed.onrender.com/purchase/premiummembership', { headers: {"Authorization" : token} });
     console.log(response);
     var options =
     {
@@ -122,7 +121,7 @@ document.getElementById('rzp-button1').onclick = async function (e) {
      "order_id": response.data.order.id,// For one time payment
      // This handler function will handle the success payment
      "handler": async function (response) {
-        const res = await axios.post('http://localhost:3000/purchase/updatetransactionstatus',{
+        const res = await axios.post('https://expense-tracker-deployed.onrender.com/purchase/updatetransactionstatus',{
              order_id: options.order_id,
              payment_id: response.razorpay_payment_id,
          }, { headers: {"Authorization" : token} })
