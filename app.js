@@ -29,9 +29,6 @@ app.use('/premium', premiumFeatureRoutes);
 
 app.use(express.static('public'));
 
-app.use((req, res) => {
-  res.status(404).sendFile(path.join(__dirname, 'public', 'error.html'));
-});
 
 app.listen(port, () => {
   console.log(`Server running on port: ${port}`);
